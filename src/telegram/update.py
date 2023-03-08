@@ -5,6 +5,9 @@ class TelegramBotUpdate:
     def __init__(self, update: Dict[str, Any]):
         """Represents a Telegram Bot Update.
 
+        Refer to Telegram API for more details.
+        https://core.telegram.org/bots/api#update
+
         An update can be one of the following:
         - Message
         - Edited Message
