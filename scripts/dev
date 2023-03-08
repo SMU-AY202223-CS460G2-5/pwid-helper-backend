@@ -6,7 +6,6 @@ SCRIPT_DIR=$(dirname $0)
 PROJECT_ROOT=$(dirname $SCRIPT_DIR)
 
 if [ -f $PROJECT_ROOT/.env ]; then
-    # export $(cat $PROJECT_ROOT/.env | sed 's/#.*//g' | xargs)
     set -o allexport
     source $PROJECT_ROOT/.env
     set +o allexport
