@@ -40,13 +40,13 @@ cont() {
 
 # static type check
 echo "Installing stub packages..."
-trycatch mypy dpm --install-types --non-interactive --namespace-packages
+trycatch mypy src --install-types --non-interactive --namespace-packages
 echo "Running static type check..."
-try mypy dpm \
+try mypy src \
     --ignore-missing-imports \
     --disallow-untyped-defs \
-    --namespace-packages \
-    success
+    --namespace-packages
+success
 
 echo "Remove unused imports..."
 try autoflake \

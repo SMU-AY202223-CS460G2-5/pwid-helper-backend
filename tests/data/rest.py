@@ -21,7 +21,6 @@ class MockRequests:
             "entities": [{"offset": 0, "length": 6, "type": "bot_command"}],
         },
     }
-    pass
 
 
 class MockResponse:
