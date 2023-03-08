@@ -62,10 +62,10 @@ Activate pipenv shell (virtual environment)
 pipenv shell
 ```
 
-Install dependencies
+Install all dependencies, including dev depencies
 
 ```bash
-pipenv install
+pipenv install -d
 ```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
