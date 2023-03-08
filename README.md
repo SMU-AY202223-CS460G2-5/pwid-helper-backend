@@ -101,6 +101,14 @@ make dev
 python run_dev.py
 ```
 
+### Adding scripts to [`scripts`](/scripts/)
+
+After adding a script to the directory, run the following to change file mode to executable
+
+```bash
+git update-index --chmod=+x ./scripts/<script_name>
+```
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 # Testing
