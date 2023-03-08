@@ -1,0 +1,12 @@
+#!/bin/bash
+
+set -e
+
+printf "[run]\ndata_file=/tmp/.coverage" >/tmp/.coveragerc
+
+pytest tests \
+    -o cache_dir=/tmp/.pytest_cache \
+    -W ignore::DeprecationWarning \
+    --cache-clear \
+    -s -v \
+    --junitxml=test-results/pytest-result.xml

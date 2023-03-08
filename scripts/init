@@ -1,0 +1,12 @@
+#!/bin/bash
+
+SCRIPT_DIR=$(dirname $0)
+PROJECT_ROOT=$(dirname $SCRIPT_DIR)
+
+echo "Copying env files..."
+
+cp $PROJECT_ROOT/.env.example $PROJECT_ROOT/.env
+
+echo "env files copied."
+
+# Add any other project initialization steps required
