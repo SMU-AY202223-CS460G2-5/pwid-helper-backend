@@ -23,7 +23,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install pipenv
-        run: pip install pipenv
+        run: |
+          pip install pipenv
+          pipenv shell
       - name: Install dependencies
         run: |
           pipenv install -d
