@@ -2,6 +2,8 @@ from typing import Any, Tuple
 
 from flask import Flask, request
 
+from src.constants import Message
+from src.firebase import db
 from src.rest import Json
 from src.telegram import bot
 from src.telegram.handlers import MessageCommandTypes, message_handler
@@ -51,7 +53,30 @@ def webhook() -> Tuple[Any, int]:
     response = None
     if update.type == TelegramBotUpdateTypes.MESSAGE:
         if update.text == MessageCommandTypes.START:
-            response = message_handler.start(update)
+            chatID = body.message.chat.id
+            doc_ref = db.collection('users').document(chatID)
+            doc = doc_ref.get()
+            if doc.exists:
+                return "Account has already /start"
+            else:
+                response = message_handler.start(update)
+                firstName = body.message.chat.first_name
+                lastName = body.message.chat.last_name
+                personalised = "Thank you " + firstName + "\n"
+                username = body.message.chat.username
+                 
+                # Set the data for the document
+                doc_ref.set({
+                    'firstName': firstName,
+                    'lastName': lastName,
+                    'username': username,
+                    'chatID': chatID
+                })
+                
+                return personalised + Message.START_BOT
+
+
+
 
     if not response:
         return "Telegram Api Error", 500
