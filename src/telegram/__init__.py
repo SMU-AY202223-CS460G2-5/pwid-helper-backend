@@ -13,7 +13,7 @@ class TelegramApiWrapper:
     def _post_json(self, json: Json, url: str) -> Json:
         """Sends a POST request to the Telegram API."""
         r = requests.post(url, json)
-        print(f"{r.status_code}:: {url} :: {json}")
+        print(f"{url} :: {json}")
         return r.json()
 
     def get_url(self, method: str) -> str:
@@ -121,7 +121,7 @@ class TelegramBot:
                 telegram api.
         """
         payload = dict(
-            chat_id=str(chat_id),
+            chat_id=int(chat_id),
             text=msg,
             parse_mode="HTML",
         )

@@ -53,29 +53,7 @@ def webhook() -> Tuple[Any, int]:
     response = None
     if update.type == TelegramBotUpdateTypes.MESSAGE:
         if update.text == MessageCommandTypes.START:
-            username = update.username
-            doc_ref = db.collection('users').document(username)
-            doc = doc_ref.get()
-            if doc.exists:
-                return "Account has already /start"
-            else:
-                first_name = update.first_name
-                chat_id = update.chat_id
-                response = message_handler.start(update)
-                personalised = "Thank you " + first_name + "\n"
-
-                 
-                #Set the data for the document
-                doc_ref.set({
-                    'first_name': first_name,
-                    'username': username,
-                    'chat_id': chat_id
-                })
-                
-                return personalised + Message.START_BOT
-
-
-
+            response = message_handler.start(update)
 
     if not response:
         return "Telegram Api Error", 500
