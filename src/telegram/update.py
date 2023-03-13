@@ -55,6 +55,8 @@ class TelegramBotUpdate:
             self.type = TelegramBotUpdateTypes.MESSAGE
             self.chat = self.message.get("chat")
             self.chat_id = self.chat.get("id")
+            self.username = self.chat.get("username")
+            self.first_name = self.chat.get("first_name")
             self.message_id = self.message.get("message_id")
             self.text = self.message.get("text")
 
@@ -62,6 +64,8 @@ class TelegramBotUpdate:
             self.type = TelegramBotUpdateTypes.CALLBACK_QUERY
             self.chat = self.callback_query.get("message").get("chat")
             self.chat_id = self.chat.get("id")
+            self.username = self.chat.get("username")
+            self.first_name = self.chat.get("first_name")
             self.message_id = self.callback_query.get("message").get("message_id")
             self.text = self.callback_query.get("data")
 

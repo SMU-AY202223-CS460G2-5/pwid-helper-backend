@@ -53,24 +53,23 @@ def webhook() -> Tuple[Any, int]:
     response = None
     if update.type == TelegramBotUpdateTypes.MESSAGE:
         if update.text == MessageCommandTypes.START:
-            chatID = body.message.chat.id
-            doc_ref = db.collection('users').document(chatID)
+            username = update.username
+            doc_ref = db.collection('users').document(username)
             doc = doc_ref.get()
             if doc.exists:
                 return "Account has already /start"
             else:
+                first_name = update.first_name
+                chat_id = update.chat_id
                 response = message_handler.start(update)
-                firstName = body.message.chat.first_name
-                lastName = body.message.chat.last_name
-                personalised = "Thank you " + firstName + "\n"
-                username = body.message.chat.username
+                personalised = "Thank you " + first_name + "\n"
+
                  
-                # Set the data for the document
+                #Set the data for the document
                 doc_ref.set({
-                    'firstName': firstName,
-                    'lastName': lastName,
+                    'first_name': first_name,
                     'username': username,
-                    'chatID': chatID
+                    'chat_id': chat_id
                 })
                 
                 return personalised + Message.START_BOT
