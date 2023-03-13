@@ -8,6 +8,7 @@ flask = "*"
 pytest = "*"
 python-dotenv = "*"
 requests = "*"
+firebase-admin = "*"
 
 [dev-packages]
 autoflake = "*"

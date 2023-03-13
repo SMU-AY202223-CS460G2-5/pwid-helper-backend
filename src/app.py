@@ -2,6 +2,8 @@ from typing import Any, Tuple
 
 from flask import Flask, request
 
+from src.constants import Message
+from src.firebase import db
 from src.rest import Json
 from src.telegram import bot
 from src.telegram.handlers import MessageCommandTypes, message_handler

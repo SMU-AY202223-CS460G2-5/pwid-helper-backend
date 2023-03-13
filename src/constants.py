@@ -1,8 +1,11 @@
 # Constants for FlashID
 class Message:
     START_BOT = (
-        "Thank you for signing up with FlashID.\nWe appreciate your time to contribute "
+        "Thank you {} for signing up with FlashID.\nWe appreciate your time to contribute "
         "to the society and your help will greatly help the PWID."
+    )
+    START_BOT_USER_ALREADY_EXIST = (
+        "You already started the bot."
     )
     PWID_REQUEST = "Help has been called. Please hold on tight."
     BROADCAST_REQUEST = (
@@ -20,3 +23,4 @@ class Message:
     BROADCAST_ACCEPTED = (
         "Thank you everyone, this request has been taken and help is already on the way"
     )
+
