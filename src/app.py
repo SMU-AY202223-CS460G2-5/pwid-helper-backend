@@ -53,6 +53,7 @@ def webhook() -> Tuple[Any, int]:
         if update.text == MessageCommandTypes.START:
             response = message_handler.start(update)
 
+
     if not response:
         return "Telegram Api Error", 500
 
