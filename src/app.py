@@ -2,8 +2,6 @@ from typing import Any, Tuple
 
 from flask import Flask, request
 
-from src.constants import Message
-from src.firebase import db
 from src.rest import Json
 from src.telegram import bot
 from src.telegram.handlers import MessageCommandTypes, message_handler
@@ -54,6 +52,7 @@ def webhook() -> Tuple[Any, int]:
     if update.type == TelegramBotUpdateTypes.MESSAGE:
         if update.text == MessageCommandTypes.START:
             response = message_handler.start(update)
+
 
     if not response:
         return "Telegram Api Error", 500
