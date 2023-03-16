@@ -9,6 +9,7 @@ pytest = "*"
 python-dotenv = "*"
 requests = "*"
 firebase-admin = "*"
+gunicorn = "*"
 
 [dev-packages]
 autoflake = "*"
