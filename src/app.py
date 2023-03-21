@@ -6,6 +6,7 @@ from src.rest import Json
 from src.telegram import bot
 from src.telegram.handlers import MessageCommandTypes, message_handler
 from src.telegram.update import TelegramBotUpdate, TelegramBotUpdateTypes
+from src.firebase import available, change_available
 
 app = Flask(__name__)
 
@@ -43,6 +44,7 @@ def webhook() -> Tuple[Any, int]:
     Returns:
         Tuple[Any, int]: Flask Response
     """
+    available()
     body = request.get_json() if request.is_json else None
     if not body:
         return "Invalid Request Body", 400
