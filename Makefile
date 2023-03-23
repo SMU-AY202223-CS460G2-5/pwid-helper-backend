@@ -33,3 +33,6 @@ test:
 
 dev:
 	@./scripts/dev
+
+stop:
+	docker stop pwid-flask-app
