@@ -10,6 +10,8 @@ RUN pip install 'pipenv==2018.11.26' && \
     pipenv lock -r > /requirements.txt && \
     pip install -r /requirements.txt --no-cache-dir
 
+ENV FLASK_ENV=production
+
 EXPOSE 5000
 
 CMD [ "gunicorn", "--bind=0.0.0.0:5000", "src.app:app" ]

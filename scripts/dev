@@ -13,6 +13,14 @@ else
     echo "No .env file found"
 fi
 
+echo "starting development server from" $PROJECT_ROOT
+
 docker build -t pwid-flask-app $PROJECT_ROOT
 
-docker run --name pwid-flask-app -p 5000:5000 pwid-flask-app
+docker run \
+    --name pwid-flask-app \
+    -v "$PROJECT_ROOT"/src:/app/src:ro \
+    -e FLASK_ENV=development \
+    -e FLASK_DEBUG=1 \
+    -p 5000:5000 \
+    pwid-flask-app

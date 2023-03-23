@@ -1,6 +1,7 @@
+import os
 from typing import Any, Tuple
 
-from flask import Flask, request
+from flask import Flask, jsonify, request
 
 from src.telegram import bot
 from src.telegram.handlers import MessageCommandTypes, message_handler
@@ -60,8 +61,17 @@ def webhook() -> Tuple[Any, int]:
 
 @app.route("/setWebhook", methods=["GET"])
 def set_webhook() -> Tuple[Any, int]:
-    bot.set_webhook(request.url_root + "webhook")
-    return request.url_root, 200
+    webhook_url = f"https://{request.host}/webhook"
+    env = os.getenv("FLASK_ENV")
+    if env == "production":
+        bot.set_webhook(webhook_url)
+    return (
+        jsonify(
+            webhook_url=webhook_url,
+            environment=env,
+        ),
+        200,
+    )
 
 
 @app.route("/health", methods=["GET"])

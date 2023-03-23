@@ -76,13 +76,13 @@ class TelegramApiWrapper:
         """
         return self._post_json(json, self.get_url("editMessageReplyMarkup"))
 
-    def set_webhook(self, webhookUrl: str) -> Json:
+    def set_webhook(self, webhook_url: str) -> Json:
         """Set a webhook url for the bot.
 
         Refer to Telegram API for necessary parameters.
         https://core.telegram.org/bots/api#setwebhook
         """
-        return self._post_json({"url": webhookUrl}, self.get_url("setWebhook"))
+        return self._post_json({"url": webhook_url}, self.get_url("setWebhook"))
 
     def delete_webhook(self) -> Json:
         """Deletes the webhook url for the bot.
@@ -210,8 +210,8 @@ class TelegramBot:
         }
         return self.api.edit_message_reply_markup(json)
 
-    def set_webhook(self, webhookUrl: str) -> Json:
-        return self.api.set_webhook(webhookUrl)
+    def set_webhook(self, webhook_url: str) -> Json:
+        return self.api.set_webhook(webhook_url)
 
     def delete_webhook(self) -> Json:
         return self.api.delete_webhook()
