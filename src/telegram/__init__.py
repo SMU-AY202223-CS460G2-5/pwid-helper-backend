@@ -143,7 +143,7 @@ class TelegramBot:
 
         return generate_response_json(success, data)
 
-    def broadcast(self, message: str, chat_ids: List[str]) -> None:
+    def broadcast(self, message: str, chat_ids: List[int]) -> None:
         """Broadcast Message to list of Users
 
         Args:

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Union
 
 
 class TelegramBotUpdate:
@@ -47,27 +47,31 @@ class TelegramBotUpdate:
         Args:
             update (Dict[str, Any]): Telegram Bot Update.
         """
-        self.message = update.get("message")
+        self.message: Union[Dict[str, Any], None] = update.get("message")
         self.callback_query = update.get("callback_query")
         self.type = None
 
         if self.message:
             self.type = TelegramBotUpdateTypes.MESSAGE
-            self.chat = self.message.get("chat")
-            self.chat_id = self.chat.get("id")
-            self.username = self.chat.get("username")
-            self.first_name = self.chat.get("first_name")
-            self.message_id = self.message.get("message_id")
-            self.text = self.message.get("text")
+            self.chat: Dict[str, Any] = self.message.get("chat")
+            self.chat_id = int(self.chat.get("id"))  # type: ignore
+            self.username: str = self.chat.get("username")  # type: ignore
+            self.first_name: str = self.chat.get("first_name")  # type: ignore
+            self.message_id = int(self.message.get("message_id"))
+            self.text: str = self.message.get("text")
 
         elif self.callback_query:
             self.type = TelegramBotUpdateTypes.CALLBACK_QUERY
-            self.chat = self.callback_query.get("message").get("chat")
-            self.chat_id = self.chat.get("id")
-            self.username = self.chat.get("username")
-            self.first_name = self.chat.get("first_name")
-            self.message_id = self.callback_query.get("message").get("message_id")
-            self.text = self.callback_query.get("data")
+            self.chat: Dict[str, Any] = (  # type: ignore
+                # format: off
+                self.callback_query.get("message").get("chat")
+                # format: on
+            )
+            self.chat_id = int(self.chat.get("id"))  # type: ignore
+            self.username: str = self.chat.get("username")  # type: ignore
+            self.first_name: str = self.chat.get("first_name")  # type: ignore
+            self.message_id = int(self.callback_query.get("message").get("message_id"))
+            self.text: str = self.callback_query.get("data")  # type: ignore
 
 
 class TelegramBotUpdateTypes:
