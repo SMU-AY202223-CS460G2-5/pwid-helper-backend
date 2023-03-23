@@ -25,4 +25,7 @@ class MockRequests:
 
 class MockResponse:
     HEALTH = b"Hello, Health!"
-    START_COMMAND = {"data": {"chat_id": 123, "message_id": 2}, "success": True}
+    START_COMMAND = {
+        "data": {"chat_id": 123, "message_id": 2, "available": True},
+        "success": True,
+    }

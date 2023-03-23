@@ -1,4 +1,4 @@
-from typing import Union
+from typing import List, Union
 
 import requests
 
@@ -143,6 +143,16 @@ class TelegramBot:
 
         return generate_response_json(success, data)
 
+    def broadcast(self, message: str, chat_ids: List[str]) -> None:
+        """Broadcast Message to list of Users
+
+        Args:
+            message (str): message to broadcast
+            users (List[str]): list of user's chat id
+        """
+        for chat_id in chat_ids:
+            self.send_message(chat_id, message)
+
     def send_chat_action(self, chat_id: int, action: str) -> Json:
         json = {
             "chat_id": chat_id,
@@ -203,8 +213,8 @@ class TelegramBot:
     def set_webhook(self, webhookUrl: str) -> Json:
         return self.api.set_webhook(webhookUrl)
 
-    def clear_webhook(self) -> Json:
-        return self.api.clear_webhook()
+    def delete_webhook(self) -> Json:
+        return self.api.delete_webhook()
 
     def get_me(self) -> Json:
         return self.api.get_me()

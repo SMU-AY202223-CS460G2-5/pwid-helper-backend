@@ -13,4 +13,6 @@ else
     echo "No .env file found"
 fi
 
-python $PROJECT_ROOT/run_dev.py
+docker build -t pwid-flask-app $PROJECT_ROOT
+
+docker run --name pwid-flask-app -p 5000:5000 pwid-flask-app

@@ -14,7 +14,9 @@ gunicorn = "*"
 [dev-packages]
 autoflake = "*"
 black = "*"
+flake8 = "*"
 mypy = "*"
+isort = "*"
 
 [requires]
 python_version = "3.11"

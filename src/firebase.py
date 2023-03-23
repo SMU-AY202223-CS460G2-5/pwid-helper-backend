@@ -1,9 +1,10 @@
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
 from pathlib import Path
+from typing import Any, Dict
 
-# Use a service account
+import firebase_admin
+from firebase_admin import credentials, firestore
+from google.cloud.firestore import Client
+
 cred = credentials.Certificate(
     Path(__file__).parent.joinpath(
         "fleshid-dc8ed-firebase-adminsdk-cvknm-51a90eaf75.json"
@@ -11,28 +12,22 @@ cred = credentials.Certificate(
 )
 
 firebase_admin.initialize_app(cred)
+db: Client = firestore.client()
 
-# Access Firestore using the default project ID
-db = firestore.client()
 
-def available():
-    result = {}
-    collection_ref = db.collection('users')
+def available() -> Dict[str, Any]:
+    collection_ref = db.collection("users")
     docs = collection_ref.get()
-
-    for doc in docs:
-        if doc.get("available"):
-            result[doc.get("username")] = doc.to_dict()
+    result = {d.get("username"): d.to_dict() for d in docs if d.get("available")}
+    return result
 
 
-    return(result)
-
-def change_available(username):
-    doc_ref = db.collection('users').document(username)
+def change_available(username: str) -> None:
+    doc_ref = db.collection("users").document(username)
     doc_data = doc_ref.get().to_dict()
 
     my_field = doc_data["available"]
     if my_field:
-        doc_ref.update({'available': False})
+        doc_ref.update({"available": False})
     else:
-        doc_ref.update({'available': True})
+        doc_ref.update({"available": True})
