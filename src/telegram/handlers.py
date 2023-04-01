@@ -1,8 +1,17 @@
+from time import time
+
 from src.constants import Message
 from src.firebase import db
 from src.rest import Json
 from src.telegram import TelegramBot, bot
 from src.telegram.update import TelegramBotUpdate
+from src.telegram.volunteers import (
+    GenderPreference,
+    LanguagePreference,
+    OnboardingState,
+    request_volunteer_gender,
+    request_volunteer_language,
+)
 
 
 class MessageCommandTypes:
@@ -29,18 +38,45 @@ class MessageHandler:
                 username=username,
                 first_name=first_name,
                 chat_id=chat_id,
-                available=True,
+                available=False,
+                onboarding_state=OnboardingState.NEW.value,
+                created_at=int(time()),
+                updated_at=int(time()),
             )
         )
-        return self.bot.send_message(
-            update.chat_id,
-            Message.START_BOT.format(first_name),
-        )
+        return request_volunteer_gender(chat_id)
 
 
 class CallbackQueryHandler:
     def __init__(self, bot: TelegramBot):
         self.bot = bot
+
+    def gender_preference(self, update: TelegramBotUpdate) -> Json:
+        callback_data = update.callback_data
+        username = update.username
+        doc_ref = db.collection("users").document(username)
+        doc_ref.update(
+            dict(
+                gender=GenderPreference(callback_data.get("value")).value,
+                updated_at=int(time()),
+            )
+        )
+        return request_volunteer_language(update.chat_id)
+
+    def language_preference(self, update: TelegramBotUpdate) -> Json:
+        callback_data = update.callback_data
+        username = update.username
+        doc_ref = db.collection("users").document(username)
+        doc_ref.update(
+            dict(
+                language=LanguagePreference(callback_data.get("value")).value,
+                updated_at=int(time()),
+            )
+        )
+        return self.bot.send_message(
+            update.chat_id,
+            Message.ONBOARD_SUCCESS.format(username),
+        )
 
 
 message_handler = MessageHandler(bot)

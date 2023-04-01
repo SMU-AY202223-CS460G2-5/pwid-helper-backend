@@ -1,4 +1,7 @@
+import json
 from typing import Any, Dict, Union
+
+from src.rest import Json
 
 
 class TelegramBotUpdate:
@@ -71,7 +74,7 @@ class TelegramBotUpdate:
             self.username: str = self.chat.get("username")  # type: ignore
             self.first_name: str = self.chat.get("first_name")  # type: ignore
             self.message_id = int(self.callback_query.get("message").get("message_id"))
-            self.text: str = self.callback_query.get("data")  # type: ignore
+            self.callback_data: Json = json.loads(self.callback_query.get("data"))  # type: ignore
 
 
 class TelegramBotUpdateTypes:

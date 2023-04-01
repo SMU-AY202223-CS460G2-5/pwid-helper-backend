@@ -1,3 +1,4 @@
+import json
 from typing import List, Union
 
 import requests
@@ -12,7 +13,7 @@ class TelegramApiWrapper:
 
     def _post_json(self, json: Json, url: str) -> Json:
         """Sends a POST request to the Telegram API."""
-        r = requests.post(url, json)
+        r = requests.post(url, json=json)
         print(f"{url} :: {json}")
         return r.json()
 
@@ -35,6 +36,14 @@ class TelegramApiWrapper:
         https://core.telegram.org/bots/api#sendmessage
         """
         return self._post_json(json, self.get_url("sendMessage"))
+
+    def send_poll(self, json: Json) -> Json:
+        """Sends a poll to a telegram chat.
+
+        Refer to Telegram API for necessary parameters.
+        https://core.telegram.org/bots/api#sendpoll
+        """
+        return self._post_json(json, self.get_url("sendPoll"))
 
     def send_chat_action(self, json: Json) -> Json:
         """Sends a chat action to a telegram chat.
@@ -143,6 +152,47 @@ class TelegramBot:
 
         return generate_response_json(success, data)
 
+    def send_poll(
+        self,
+        chat_id: int,
+        question: str,
+        options: List[str],
+        allows_multiple_answers: bool = False,
+        open_period: int = 600,
+        protect_content: bool = True,
+        markup: Union[str, None] = None,
+    ) -> Json:
+        """Sends a poll to a telegram chat.
+
+        Args:
+            chat_id (int): The chat id of the chat to send this message to.
+            question (str): The question of the poll.
+            options (List[str]): A list of answer options, 2-10 strings 1-100
+                characters each.
+            allows_multiple_answers (bool, optional): True, if the poll allows
+                multiple answers. Defaults to False.
+            open_period (int, optional): Amount of time in seconds the poll will
+                be active after creation. Defaults to 600.
+            protect_content (bool, optional): True, if the poll needs to be sent
+                anonymously. Defaults to True.
+            markup (str, optional): The reply markup type of the message. Defaults
+                to None.
+
+        Returns:
+            Json: a json payload for response containing response from telegram api.
+        """
+        poll = dict(
+            chat_id=chat_id,
+            question=question,
+            options=options,
+            is_anonymous=protect_content,
+            type="regular",
+            allows_multiple_answers=allows_multiple_answers,
+            open_period=open_period,
+            reply_markup=markup,
+        )
+        self.api.send_poll(poll)
+
     def broadcast(self, message: str, chat_ids: List[int]) -> None:
         """Broadcast Message to list of Users
 
@@ -218,6 +268,16 @@ class TelegramBot:
 
     def get_me(self) -> Json:
         return self.api.get_me()
+
+
+def inline_button_with_callback(
+    text: str, callback_command: str, callback_value: str
+) -> Json:
+    a = dict(
+        text=text,
+        callback_data=json.dumps(dict(command=callback_command, value=callback_value)),
+    )
+    return a
 
 
 bot = TelegramBot(TELEGRAM_BOT_TOKEN)

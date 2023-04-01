@@ -1,6 +1,6 @@
 # Constants for FlashID
 class Message:
-    START_BOT = (
+    ONBOARD_SUCCESS = (
         "Thank you {} for signing up with FlashID.\nWe appreciate your time to "
         "contribute to the society and your help will greatly help the PWID."
     )
@@ -21,3 +21,8 @@ class Message:
     BROADCAST_ACCEPTED = (
         "Thank you everyone, this request has been taken and help is already on the way"
     )
+    GENDER_REQUEST = (
+        "Before lending a hand, please let us know the preferred gender you wish to "
+        "help."
+    )
+    LANGUAGE_POLL_QUESTION = "Please select your preferred language."
