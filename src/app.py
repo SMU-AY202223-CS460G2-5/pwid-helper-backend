@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Any, Tuple
 
@@ -8,6 +9,10 @@ from src.telegram.handlers import MessageCommandTypes, message_handler
 from src.telegram.update import TelegramBotUpdate, TelegramBotUpdateTypes
 
 app = Flask(__name__)
+logging.basicConfig(
+    level=logging.INFO, format="%(levelname)-8s :: (%(name)s) %(message)s"
+)
+logger = logging.getLogger(__name__)
 
 
 @app.route("/webhook", methods=["POST"])
@@ -44,7 +49,7 @@ def webhook() -> Tuple[Any, int]:
         Tuple[Any, int]: Flask Response
     """
     body = request.get_json() if request.is_json else None
-    print("request body: ", body)
+    logger.info("request body: ", body)
     if not body:
         return "Invalid Request Body", 400
 
@@ -57,7 +62,7 @@ def webhook() -> Tuple[Any, int]:
     if not response:
         return "Telegram Api Error", 500
 
-    print(response)
+    logger.info(response)
     return response, 200
 
 
@@ -88,7 +93,7 @@ def health() -> Tuple[Any, int]:
 @app.route("/rasp", methods=["POST"])
 def rasp() -> Tuple[Any, int]:
     body = request.get_json() if request.is_json else None
-    print(body)
+    logger.info(body)
 
     if not body:
         return "Invalid Request Body", 400
@@ -100,5 +105,5 @@ def rasp() -> Tuple[Any, int]:
     if not pwid_id or not long or not lat:
         return "Invalid Request Body", 400
 
-    print(pwid_id, long, lat)
-    return "SMILE", 200
+    logger.info(pwid_id, long, lat)
+    return "DUCK", 200
