@@ -49,7 +49,7 @@ def webhook() -> Tuple[Any, int]:
         Tuple[Any, int]: Flask Response
     """
     body = request.get_json() if request.is_json else None
-    logger.info("request body: ", body)
+    logger.info(f"request body: {body}")
     if not body:
         return "Invalid Request Body", 400
 
@@ -62,7 +62,7 @@ def webhook() -> Tuple[Any, int]:
     if not response:
         return "Telegram Api Error", 500
 
-    logger.info(response)
+    logger.info(repr(response))
     return response, 200
 
 
@@ -93,7 +93,7 @@ def health() -> Tuple[Any, int]:
 @app.route("/rasp", methods=["POST"])
 def rasp() -> Tuple[Any, int]:
     body = request.get_json() if request.is_json else None
-    logger.info(body)
+    logger.info(f"request body: {body}")
 
     if not body:
         return "Invalid Request Body", 400
@@ -105,5 +105,5 @@ def rasp() -> Tuple[Any, int]:
     if not pwid_id or not long or not lat:
         return "Invalid Request Body", 400
 
-    logger.info(pwid_id, long, lat)
+    logger.info(f"id: {pwid_id}, long: {long}, lat: {lat}")
     return "DUCK", 200
