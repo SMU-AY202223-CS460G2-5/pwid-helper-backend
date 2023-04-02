@@ -1,8 +1,8 @@
 <div id="top"></div>
 <div align="center">
-  <h1 align="center">PWID Helper Backend</h1>
+  <h1 align="center">FlashID Backend</h1>
   <p align="center">
-    This project builds on top of the existing Developmental Disablity Registry Identity Card (DDR ID Card) and the Electronic ID done by the ConnectID project team.<br />We aim to improve the PWID's experience to seek help when they are lost in public and reduce the time to respond by responders during such a scenario.<br />Our project strives to achieve that though matching the most suitable responders based on each PWID's personal needs & the responders capabilities, segregating areas of concerns to prevent misuse of personal data, and finally, increase the reach of getting responders by leveraging the internet.
+    This project builds on the existing Developmental Disability Registry Identity Card (DDR ID Card) and the Electronic ID done by the ConnectID project team.<br />We aim to improve the PWID's experience of seeking help when they are lost in public and reduce the time to respond to responders during such a scenario.<br />Our project strives to achieve that though matching the most suitable responders based on each PWID's personal needs & the responder's capabilities, segregating areas of concern to prevent misuse of personal data, and finally, increasing the reach of getting responders by leveraging the internet.
   </p>
 </div>
 
@@ -29,7 +29,7 @@
 # Solution Architecture
 
 <div align="center">
-    <img src="./.github/soln-architecture.png" />
+    <img src="./.github/soln-architecture-v2.png" />
 </div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
