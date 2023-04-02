@@ -5,7 +5,11 @@ from typing import Any, Tuple
 from flask import Flask, jsonify, request
 
 from src.telegram import bot
-from src.telegram.handlers import MessageCommandTypes, message_handler
+from src.telegram.handlers import (
+    MessageCommandTypes,
+    callback_query_handler,
+    message_handler,
+)
 from src.telegram.update import TelegramBotUpdate, TelegramBotUpdateTypes
 
 app = Flask(__name__)
@@ -58,6 +62,12 @@ def webhook() -> Tuple[Any, int]:
     if update.type == TelegramBotUpdateTypes.MESSAGE:
         if update.text == MessageCommandTypes.START:
             response = message_handler.start(update)
+
+    elif update.type == TelegramBotUpdateTypes.CALLBACK_QUERY:
+        if update.callback_data.get("command") == "gender":
+            response = callback_query_handler.gender_preference(update)
+        elif update.callback_data.get("command") == "language":
+            response = callback_query_handler.language_preference(update)
 
     if not response:
         return "Telegram Api Error", 500
