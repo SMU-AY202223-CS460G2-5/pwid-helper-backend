@@ -1,7 +1,10 @@
 import json
+import logging
 from typing import Any, Dict, Union
 
 from src.rest import Json
+
+logger = logging.getLogger(__name__)
 
 
 class TelegramBotUpdate:
@@ -75,6 +78,12 @@ class TelegramBotUpdate:
             self.first_name: str = self.chat.get("first_name")  # type: ignore
             self.message_id = int(self.callback_query.get("message").get("message_id"))
             self.callback_data: Json = self.callback_query.get("data")  # type: ignore
+            logger.info(f"callback_data: {self.callback_data}")
+
+        logger.info(f"update type: {self}")
+
+    def __repr__(self) -> str:
+        return json.dumps(self.__dict__)
 
 
 class TelegramBotUpdateTypes:
