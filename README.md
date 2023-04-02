@@ -29,7 +29,7 @@
 # Solution Architecture
 
 <div align="center">
-    <img src="./.github/soln-architecture-v2.png" />
+    <img src="./.github/soln-architecture-v1.png" />
 </div>
 
 <p align="right">(<a href="#top">back to top</a>)</p>
