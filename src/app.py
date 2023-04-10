@@ -4,6 +4,8 @@ from typing import Any, Tuple
 
 from flask import Flask, jsonify, request
 
+from src.constants import Message
+from src.firebase import available
 from src.telegram import bot
 from src.telegram.handlers import (
     MessageCommandTypes,
@@ -118,5 +120,12 @@ def rasp() -> Tuple[Any, int]:
     if not pwid_id or not long or not lat:
         return "Invalid Request Body", 400
 
+    broadcast_message = Message.BROADCAST_REQUEST.format(
+        f"Long: {long}, Lat {lat}", pwid_id
+    )
+    available_volunteers = [
+        volunteer.get("chat_id") for volunteer in available().values()
+    ]
+    bot.broadcast(broadcast_message, available_volunteers)
     logger.info(f"id: {pwid_id}, long: {long}, lat: {lat}")
     return "DUCK", 200
