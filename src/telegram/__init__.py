@@ -196,6 +196,7 @@ class TelegramBot:
             open_period=open_period,
             reply_markup=markup,
         )
+        poll = {k: v for k, v in poll.items() if v is not None}
         logger.info(f"Sending poll: {poll}")
         self.api.send_poll(poll)
 
