@@ -1,10 +1,13 @@
 import json
+import logging
 from typing import List, Union
 
 import requests
 
 from src.config import TELEGRAM_BOT_TOKEN
 from src.rest import Json, generate_response_json
+
+logger = logging.getLogger(__name__)
 
 
 class TelegramApiWrapper:
@@ -15,6 +18,7 @@ class TelegramApiWrapper:
         """Sends a POST request to the Telegram API."""
         r = requests.post(url, json=json)
         print(f"{url} :: {json}")
+        logger.info(f"{url} :: {json}")
         return r.json()
 
     def get_url(self, method: str) -> str:
@@ -191,6 +195,7 @@ class TelegramBot:
             open_period=open_period,
             reply_markup=markup,
         )
+        logger.info(f"Sending poll: {poll}")
         self.api.send_poll(poll)
 
     def broadcast(self, message: str, chat_ids: List[int]) -> None:
