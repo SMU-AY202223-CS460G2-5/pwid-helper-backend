@@ -78,6 +78,7 @@ class TelegramBotUpdate:
             self.first_name: str = self.chat.get("first_name")  # type: ignore
             self.message_id = int(self.callback_query.get("message").get("message_id"))
             self.callback_data: Json = json.loads(self.callback_query.get("data"))  # type: ignore
+            self.callback_query_id: str = self.callback_query.get("id")  # type: ignore
             logger.info(f"callback_data: {self.callback_data}")
 
         logger.info(f"update type: {self}")

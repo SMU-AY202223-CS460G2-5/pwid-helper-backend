@@ -68,9 +68,12 @@ def webhook() -> Tuple[Any, int]:
             response = callback_query_handler.gender_preference(update)
         elif update.callback_data.get("command") == "language":
             response = callback_query_handler.language_preference(update)
+    else:
+        logger.info(f"Unhandled Update Type: {update.type}")
+        response = bot.send_message(update.chat_id, "Invalid input, please try again.")
 
     if not response:
-        return "Telegram Api Error", 500
+        return "No response", 200
 
     logger.info(repr(response))
     return response, 200

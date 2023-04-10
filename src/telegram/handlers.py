@@ -61,6 +61,7 @@ class CallbackQueryHandler:
                 updated_at=int(time()),
             )
         )
+        bot.answer_callback_query(update.callback_query_id)
         return request_volunteer_language(update.chat_id)
 
     def language_preference(self, update: TelegramBotUpdate) -> Json:
@@ -73,6 +74,7 @@ class CallbackQueryHandler:
                 updated_at=int(time()),
             )
         )
+        bot.answer_callback_query(update.callback_query_id)
         return self.bot.send_message(
             update.chat_id,
             Message.ONBOARD_SUCCESS.format(username),
