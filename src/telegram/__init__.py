@@ -108,6 +108,16 @@ class TelegramApiWrapper:
             {"drop_pending_updates": True}, self.get_url("deleteWebhook")
         )
 
+    def send_photo(self, chat_id: int, photo_url: str) -> Json:
+        """Send a photo to a telegram chat.
+
+        Refer to Telegram API for necessary parameters.
+        https://core.telegram.org/bots/api#sendphoto
+        """
+        return self._post_json(
+            {"chat_id": chat_id, "photo": photo_url}, self.get_url("sendPhoto")
+        )
+
 
 class TelegramBot:
     def __init__(self, token: str) -> None:
@@ -157,6 +167,9 @@ class TelegramBot:
 
         return generate_response_json(success, data)
 
+    def send_photo(self, chat_id: int, photo_url: str):
+        return self.api.send_photo(chat_id, photo_url)
+
     def send_poll(
         self,
         chat_id: int,
@@ -200,7 +213,7 @@ class TelegramBot:
         logger.info(f"Sending poll: {poll}")
         self.api.send_poll(poll)
 
-    def broadcast(self, message: str, chat_ids: List[int]) -> None:
+    def broadcast(self, message: str, chat_ids: List[int], markup=None) -> None:
         """Broadcast Message to list of Users
 
         Args:
@@ -208,7 +221,7 @@ class TelegramBot:
             users (List[str]): list of user's chat id
         """
         for chat_id in chat_ids:
-            self.send_message(chat_id, message)
+            self.send_message(chat_id, message, markup)
 
     def send_chat_action(self, chat_id: int, action: str) -> Json:
         json = {

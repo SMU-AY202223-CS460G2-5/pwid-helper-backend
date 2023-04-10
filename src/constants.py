@@ -7,7 +7,8 @@ class Message:
     START_BOT_USER_ALREADY_EXIST = "You already started the bot."
     PWID_REQUEST = "Help has been called. Please hold on tight."
     BROADCAST_REQUEST = (
-        "Hello everyone! \n Help is needed please help\nLocation: {} \nPWID ID: {}"
+        "<strong>⚠️Help Requested‼️</strong>\nA PWID has called for help at:"
+        "\nLocation: {}\nPWID ID: {}"
     )
     ACCEPTED_REQUEST = (
         "Thank you for accepting this request.\n More information will  be provided "

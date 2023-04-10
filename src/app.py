@@ -6,7 +6,7 @@ from flask import Flask, jsonify, request
 
 from src.constants import Message
 from src.firebase import available
-from src.telegram import bot
+from src.telegram import bot, inline_button_with_callback
 from src.telegram.handlers import (
     MessageCommandTypes,
     callback_query_handler,
@@ -70,6 +70,8 @@ def webhook() -> Tuple[Any, int]:
             response = callback_query_handler.gender_preference(update)
         elif update.callback_data.get("command") == "language":
             response = callback_query_handler.language_preference(update)
+        elif update.callback_data.get("command") == "request":
+            response = callback_query_handler.accept_volunteer(update)
     else:
         logger.info(f"Unhandled Update Type: {update.type}")
         response = bot.send_message(update.chat_id, "Invalid input, please try again.")
@@ -126,6 +128,23 @@ def rasp() -> Tuple[Any, int]:
     available_volunteers = [
         volunteer.get("chat_id") for volunteer in available().values()
     ]
-    bot.broadcast(broadcast_message, available_volunteers)
+    inline_keyboard_row_0_buttons = [
+        inline_button_with_callback(
+            text="Accept",
+            callback_command="request",
+            callback_value="accept",
+        ),
+        inline_button_with_callback(
+            text="Decline",
+            callback_command="request",
+            callback_value="reject",
+        ),
+    ]
+    inline_buttons_markup = [inline_keyboard_row_0_buttons]
+    bot.broadcast(
+        broadcast_message,
+        available_volunteers,
+        markup=dict(inline_keyboard=inline_buttons_markup),
+    )
     logger.info(f"id: {pwid_id}, long: {long}, lat: {lat}")
     return "DUCK", 200

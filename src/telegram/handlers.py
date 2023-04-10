@@ -70,6 +70,7 @@ class CallbackQueryHandler:
         doc_ref = db.collection("users").document(username)
         doc_ref.update(
             dict(
+                available=True,
                 language=LanguagePreference(callback_data.get("value")).value,
                 updated_at=int(time()),
             )
@@ -78,6 +79,26 @@ class CallbackQueryHandler:
         return self.bot.send_message(
             update.chat_id,
             Message.ONBOARD_SUCCESS.format(username),
+        )
+
+    def accept_volunteer(self, update: TelegramBotUpdate) -> Json:
+        callback_data = update.callback_data
+        username = update.username
+        doc_ref = db.collection("users").document(username)
+        doc_ref.update(
+            dict(
+                available=False,
+                updated_at=int(time()),
+            )
+        )
+        bot.answer_callback_query(update.callback_query_id)
+        self.bot.send_message(
+            update.chat_id,
+            Message.ACCEPTED_REQUEST,
+        )
+        return self.bot.send_photo(
+            update.chat_id,
+            photo_url="https://firebasestorage.googleapis.com/v0/b/fleshid-dc8ed.appspot.com/o/microbit-duck.png?alt=media",
         )
 
 
