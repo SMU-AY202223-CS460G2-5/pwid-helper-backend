@@ -19,6 +19,7 @@ class TelegramApiWrapper:
         r = requests.post(url, json=json)
         print(f"{url} :: {json}")
         logger.info(f"{url} :: {json}")
+        logger.info(f"{r.status_code} :: {r.json()}")
         return r.json()
 
     def get_url(self, method: str) -> str:
